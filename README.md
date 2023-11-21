@@ -1,4 +1,4 @@
-# Swag framework
+# Swag library
 Swag is a low-level library for writing http servers in python. Currently it is under active development and does not have a stable API, normal documentation or full functionality.
 In this library I will try to implement the following principles:
 - path-query typed queries, I'm going to support primitives like bool, int, float, str.
@@ -26,3 +26,4 @@ def hello(request, name: str):
 app.start()
 ```
 The library uses sockets under the hood and is synchronous.
+### Swag in discord: https://discord.gg/YX6ZP7Z9En
