@@ -5,6 +5,7 @@ In this library I will try to implement the following principles:
 - caching for many things.
 - customizability.
 - 1 dependency - Python language (and its standard library).
+
 but now I just started and so none of this is ready. I will develop the project as much as possible.
 ### A simple example that you can already use:
 ```python
@@ -20,7 +21,7 @@ app = SwagApp(config=my_config)
 @app.get("/hello")  
 def hello(request, name: str):  
     return HTTPResponse(  
-        f"<h1>Looks like we are live {str(request.__dict__)} f{request.ip} </h1>",  
+        f"<h1>Looks like we are live {str(request.__dict__)} {request.ip} </h1>",  
         content_type="text/html")  
 app.start()
 ```
