@@ -2,10 +2,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+libtest.py
 # C extensions
 *.so
-
+.vscode
+.idea
 # Distribution / packaging
 .Python
 build/
