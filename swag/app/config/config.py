@@ -15,6 +15,6 @@ class SwagAppConfig(BaseSwagAppConfig):
     http_statuses_responses = {
         404: HTTPResponse("<h1>404 Not Found</h1", content_type="text/html", status=404, message="Not Found"),
         500:  HTTPResponse("<h1>500 Internal Server Error</h1", content_type="text/html", status=500, message="Internal Server Error"),
-        500:  HTTPResponse("<h1>422 Unprocessable Content</h1", content_type="text/html", status=422, message="Unprocessable Content"),
+        422:  HTTPResponse("<h1>422 Unprocessable Content</h1", content_type="text/html", status=422, message="Unprocessable Content"),
 
     }
