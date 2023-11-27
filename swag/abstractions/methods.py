@@ -5,6 +5,13 @@ HTTPGetMethod = Type["GET"]
 HTTPPostMethod = Type["POST"]
 HTTPPutMethod = Type["PUT"]
 HTTPDeleteMethod = Type["DELETE"]
-HTTPMethod = Union[HTTPPostMethod,  HTTPGetMethod, HTTPPutMethod, HTTPDeleteMethod]
+HTTPPatchMethod = Type["PATCH"]
+HTTPOptionsMethod = Type["OPTIONS"]
+HTTPHeadMethod = Type["HEAD"]
 
-AllHTTPMethods = ["GET", "POST", "PUT", "DELETE"]
+
+HTTPMethod = Union[
+    HTTPPostMethod,  HTTPGetMethod,
+    HTTPPutMethod, HTTPDeleteMethod,
+    HTTPPatchMethod, HTTPOptionsMethod,
+    HTTPHeadMethod]
