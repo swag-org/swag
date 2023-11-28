@@ -16,7 +16,7 @@ class Node:
         self.childrens = childrens
 
     def __getitem__(self, item: str):
-        patterns = [item, "{str}", "{int}", "{float}", "{bool}"]
+        patterns = [item, "{str}", "{int}", "{float}"]
         for pattern in patterns:
             if pattern in self.childrens:
                 return self.childrens[pattern]

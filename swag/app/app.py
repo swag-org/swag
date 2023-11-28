@@ -75,4 +75,7 @@ class SwagApp:
         except TypeError:
             return self.not_found
 
+        if http_route is None:
+            return self.not_found
+
         return http_route.func(request, **kwargs)
