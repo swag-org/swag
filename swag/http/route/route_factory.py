@@ -1,5 +1,5 @@
 import re
-from typing import List, Callable, Union, Dict, Any, Optional
+from typing import List, Callable, Union, Dict, Any, Optional, get_args
 from swag.abstractions.methods import HTTPMethod
 from swag.abstractions.route import BaseRouteFactory
 from swag.abstractions.request import BaseRequest
@@ -63,6 +63,9 @@ class HTTPRouteFactory(BaseRouteFactory):
         return route
 
     def register(self, method: HTTPMethod, route: str, func: Callable[[BaseRequest, ...], BaseResponse]) -> HTTPRoute:
+        if method in get_args(HTTPMethod):
+            method = method.__args__[0].__forward_arg__
+
         route = self.prepare_route(route)
         http_route = HTTPRoute(method, route, func)
         http_route.tokenize()

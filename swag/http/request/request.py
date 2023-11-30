@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Dict
+from typing import Dict, Tuple
 from swag.abstractions.request import BaseRequest
 from swag.abstractions.methods import HTTPMethod
 
@@ -25,7 +25,7 @@ class HTTPRequest(BaseRequest):
             ip=ip
         )
 
-    def __init__(self, method: HTTPMethod, headers: Dict[str, str], route: str, ip: int):
+    def __init__(self, method: HTTPMethod, headers: Dict[str, str], route: str, ip: Tuple[str, int]):
         self.method = method
         self.headers = headers
         self.route = route
