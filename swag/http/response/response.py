@@ -12,7 +12,6 @@ class HTTPResponse(BaseResponse):
     content_type: str
     content_data: Union[str, bytes]
     status: int
-    method: Union[HTTPMethod, None] = None
     server: str = "SwagServer"
 
     def __init__(self, data: Union[str, bytes] = "",
