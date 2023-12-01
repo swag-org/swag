@@ -55,9 +55,11 @@ class SwagApp:
                     conn.close()
                 except Exception as e:
                     conn.send(self.config.http_statuses_responses[500].package())
+                    if self.config.dev_mode: raise e
                     print(e)
 
             except Exception as e:
+                if self.config.dev_mode: raise e
                 print(e)
 
 

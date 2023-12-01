@@ -107,6 +107,11 @@ class HTTPRouteFactory(BaseRouteFactory):
         tokens = route.split("/")[1::]
         route_tree = self.routes[method]
 
+       # If we get something like /path/, we first split it into ['path', '']
+       # and then remove the empty token if there is one.
+        if tokens[-1] == "":
+            tokens.pop()
+
         actual_node = route_tree["/"]
         kwargs = {}
 
@@ -128,8 +133,8 @@ class HTTPRouteFactory(BaseRouteFactory):
                         if arg_type == "float":
                             token = float(token)
                     except (TypeError, ValueError):
-                        return HTTPRoute(method, route, lambda x: self.http_responses_statuses[422]), {}
+                        return HTTPRoute(method, route, lambda x: self.http_responses_statuses[422]), {} # create cached 422 response
 
-                    kwargs[actual_node.handler.cached_path_queries[index][0]] = token  # TODO: add types support
+                    kwargs[actual_node.handler.cached_path_queries[index][0]] = token
 
         return actual_node.handler, kwargs

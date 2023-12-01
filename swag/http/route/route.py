@@ -5,8 +5,8 @@ from swag.abstractions.response import BaseResponse
 from swag.abstractions.request import BaseRequest
 
 # in python sets .contains() operation time complexity  is O(1)
-SUPPORTED_TYPES_FOR_HTTP_PATH_QUERY = {int, float, bool, str}
-SupportedTypes = Union[str, int, float, bool]
+SUPPORTED_TYPES_FOR_HTTP_PATH_QUERY = {int, float, str} # TODO: rename to  SUPPORTED_TYPES_FOR_HTTP_PATH_PLACEHOLDER
+SupportedTypes = Union[str, int, float] # TODO: rename to SupportedPlaceholderTypes
 
 
 class HTTPRoute(BaseRoute):
