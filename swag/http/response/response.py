@@ -1,8 +1,6 @@
 from datetime import datetime
 from typing import Dict, Union
-from sys import getsizeof
 from swag.abstractions.response import BaseResponse
-from swag.abstractions.methods import HTTPMethod
 
 
 class HTTPResponse(BaseResponse):
@@ -12,6 +10,7 @@ class HTTPResponse(BaseResponse):
     content_type: str
     content_data: Union[str, bytes]
     status: int
+    message: str
     server: str = "SwagServer"
 
     def __init__(self, data: Union[str, bytes] = "",
