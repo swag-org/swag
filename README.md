@@ -2,7 +2,7 @@
 Swag is a low-level library for writing http servers in python. 
 It has no dependencies other than Python and its standard library.
 The library uses sockets under the hood and is synchronous.
-### Swag docs: https://github.com/swag-org/swag-docs
+### Swag docs: https://swag-org.github.io/swag-docs
 ### Swag in discord: https://discord.gg/YX6ZP7Z9En
 
 # Want to contribute?
