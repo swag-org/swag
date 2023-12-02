@@ -85,7 +85,7 @@ class HTTPRouteFactory(BaseRouteFactory):
                 if token in func.__annotations__.keys(): # NOQA
                     token = func.__annotations__[token] # NOQA
 
-                   if token == str:
+                    if token == str:
                         token = "{str}"
                     elif token == int:
                         token = "{int}"
