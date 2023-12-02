@@ -63,8 +63,8 @@ class HTTPRouteFactory(BaseRouteFactory):
         return route
 
     def register(self, method: HTTPMethod, route: str, func: Callable[[BaseRequest, ...], BaseResponse]) -> HTTPRoute:
-        if method in get_args(HTTPMethod):
-            method = method.__args__[0].__forward_arg__
+        print(method.__args__[0]=="GET", method, method.__dict__)
+            method = method.__args__[0]
 
         route = self.prepare_route(route)
         http_route = HTTPRoute(method, route, func)
