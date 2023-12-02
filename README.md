@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/swag-org/swag/badge)](https://www.codefactor.io/repository/github/swag-org/swag)
+
 # Swag library
 Swag is a low-level library for writing http servers in python. 
 It has no dependencies other than Python and its standard library.
