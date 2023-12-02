@@ -1,17 +1,17 @@
-from typing import Union, Type
+from typing import Union, Literal
 
 
-HTTPGetMethod = Type["GET"]
-HTTPPostMethod = Type["POST"]
-HTTPPutMethod = Type["PUT"]
-HTTPDeleteMethod = Type["DELETE"]
-HTTPPatchMethod = Type["PATCH"]
-HTTPOptionsMethod = Type["OPTIONS"]
-HTTPHeadMethod = Type["HEAD"]
+HTTPGetMethod = Literal["GET"]
+HTTPPostMethod = Literal["POST"]
+HTTPPutMethod = Literal["PUT"]
+HTTPDeleteMethod = Literal["DELETE"]
+HTTPPatchMethod = Literal["PATCH"]
+HTTPOptionsMethod = Literal["OPTIONS"]
+HTTPHeadMethod = Literal["HEAD"]
 
 
 HTTPMethod = Union[
-    HTTPPostMethod,  HTTPGetMethod,
+    HTTPPostMethod, HTTPGetMethod,
     HTTPPutMethod, HTTPDeleteMethod,
     HTTPPatchMethod, HTTPOptionsMethod,
     HTTPHeadMethod]

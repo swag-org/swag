@@ -84,15 +84,13 @@ class HTTPRouteFactory(BaseRouteFactory):
 
                 if token in func.__annotations__.keys(): # NOQA
                     token = func.__annotations__[token] # NOQA
-                    # TODO: Refactoring
-                    if token == str:
+
+                   if token == str:
                         token = "{str}"
                     elif token == int:
                         token = "{int}"
                     elif token == float:
                         token = "{float}"
-                    elif token == bool:
-                        token = "{bool}"
                     else: token = "{str}"
 
             if not (token in actual_node.childrens):
