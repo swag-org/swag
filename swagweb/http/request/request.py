@@ -5,17 +5,12 @@ from swagweb.abstractions.methods import HTTPMethod
 from swagweb.exceptions.request import EmptyRequestException
 
 
-
-
-
-
-
-
 class HTTPRequest(BaseRequest):
     @staticmethod
     def from_string(raw_string: str, ip: Tuple[str, int]) -> HTTPRequest:
         if len(raw_string) == 0:
-            ...
+            raise EmptyRequestException()
+
         request_data: List = raw_string.split("\r\n")
         request_meta = request_data[0].split()
         method: HTTPMethod = request_meta[0]

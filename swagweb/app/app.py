@@ -1,4 +1,5 @@
 import socket
+from swagweb.exceptions.request import EmptyRequestException
 from swagweb.http.request import HTTPRequest
 from swagweb.http.route import HTTPRouteFactory
 from swagweb.abstractions.methods import HTTPMethod
@@ -50,6 +51,10 @@ class SwagApp:
                     response: BaseResponse = self.handle_request(request)
                     conn.send(response.package())
                     conn.close()
+
+                except EmptyRequestException:
+                    conn.close()
+
                 except Exception as e:
                     conn.send(self.config.http_statuses_responses[500].package())
                     if self.config.dev_mode:
