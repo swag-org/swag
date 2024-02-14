@@ -1,7 +1,6 @@
 import socket
 from swagweb.http.request import HTTPRequest
-from swagweb.http.response import HTTPResponse
-from swagweb.http.route import HTTPRouteFactory, HTTPRoute
+from swagweb.http.route import HTTPRouteFactory
 from swagweb.abstractions.methods import HTTPMethod
 from .config import SwagAppConfig
 from ..abstractions.response import BaseResponse
@@ -9,9 +8,8 @@ from ..abstractions.response import BaseResponse
 
 class SwagApp:
     """
-    Main class for creating applications in swag framework
-    currently supports only HTTP/1.1 and GET method
-    --not_found - response that is sent when none of the existing routes matches the requested one
+    Main class for creating applications in swag library
+    currently supports only HTTP/1.1
     """
 
     def __init__(self, config: SwagAppConfig = SwagAppConfig()):
@@ -32,7 +30,7 @@ class SwagApp:
 
         return decorator
 
-    def start(self):
+    def start(self) -> None:
         """Method for starting the server"""
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -71,12 +69,13 @@ class SwagApp:
         route = request.route
         http_route = None
 
+        search_result = self.__route_factory.search(method, route)
+
         # when route not found.
-        try:
-            http_route, kwargs = self.__route_factory.search(method, route)
-        except TypeError:
+        if search_result is None:
             return self.not_found
 
+        http_route, kwargs = search_result
         if http_route is None:
             return self.not_found
 

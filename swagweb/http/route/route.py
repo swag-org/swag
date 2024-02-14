@@ -1,10 +1,10 @@
-from typing import Callable, List, Union, Any, Dict
+from typing import Callable, Union, Any, Dict, Tuple
 from swagweb.abstractions.methods import HTTPMethod
 from swagweb.abstractions.route import BaseRoute
-from swagweb.abstractions.response import BaseResponse
-from swagweb.abstractions.request import BaseRequest
+from swagweb.http.request.request import HTTPRequest
+from swagweb.http.response.response import HTTPResponse
 
-# in python sets .contains() operation time complexity  is O(1)
+# in python sets .contains() operation time complexity is O(1)
 SUPPORTED_TYPES_FOR_HTTP_PATH_QUERY = {
     int,
     float,
@@ -18,17 +18,17 @@ class HTTPRoute(BaseRoute):
         self,
         method: HTTPMethod,
         route: str,
-        func: Callable[[BaseRequest, ...], BaseResponse],
+        func: Callable[[HTTPRequest, Any], HTTPResponse],
     ):
         self.method = method
         self.route = route
-        self.func: Callable[[BaseRequest, Any, Any], BaseResponse] = func
-        self.cached_path_queries: Union[
-            Dict[int, List[str, SupportedTypes]], None
-        ] = None
+        self.func: Callable[[HTTPRequest, Any], HTTPResponse] = func
+        self.cached_path_queries: Union[Dict[int, Tuple[str, SupportedTypes]], None] = (
+            None
+        )
 
-    def tokenize(self):
-        """This function cache path queries"""
+    def tokenize(self) -> None:
+        """This function caches path queries"""
         if self.route == "/":
             return None
 
@@ -40,4 +40,4 @@ class HTTPRoute(BaseRoute):
                     if self.cached_path_queries is None:
                         self.cached_path_queries = {}
                     var_type: Any = self.func.__annotations__[var_name]  # NOQA
-                    self.cached_path_queries[index] = [var_name, var_type]
+                    self.cached_path_queries[index] = var_name, var_type

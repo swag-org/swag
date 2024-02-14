@@ -7,7 +7,7 @@ class BaseResponse(ABC):
     date: Union[str, None] = None
     content_length: Union[int, None] = None
     content_type: str
-    content_data: Union[str, bytes]
+    content_data: str
     status: int
     message: str
     server: str

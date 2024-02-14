@@ -12,5 +12,5 @@ class BaseRequest(ABC):
 
     @staticmethod
     @abstractmethod
-    def from_string(raw_string: str, ip: str) -> BaseRequest:
+    def from_string(raw_string: str, ip: Tuple[str, int]) -> BaseRequest:
         ...

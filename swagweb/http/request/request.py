@@ -1,17 +1,25 @@
 from __future__ import annotations
-from typing import Dict, Tuple
+from typing import Dict, Tuple, List
 from swagweb.abstractions.request import BaseRequest
 from swagweb.abstractions.methods import HTTPMethod
+from swagweb.exceptions.request import EmptyRequestException
+
+
+
+
+
+
 
 
 class HTTPRequest(BaseRequest):
     @staticmethod
-    def from_string(raw_string: str, ip: int) -> HTTPRequest:
-        request_data = raw_string.split("\r\n")
+    def from_string(raw_string: str, ip: Tuple[str, int]) -> HTTPRequest:
+        if len(raw_string) == 0:
+            ...
+        request_data: List = raw_string.split("\r\n")
         request_meta = request_data[0].split()
-        method = request_meta[0]
+        method: HTTPMethod = request_meta[0]
         route = request_meta[1]
-
         headers = {}
         for line in request_data:
             line = line.split(":", 1)
