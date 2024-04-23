@@ -79,7 +79,6 @@ class SwagApp:
         http_route = None
 
         search_result = self.__route_factory.search(method, route)
-
         # when route not found.
         if search_result is None:
             return self.not_found
