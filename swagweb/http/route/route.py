@@ -1,4 +1,5 @@
 from typing import Callable, Union, Any, Dict, Tuple
+from swagweb.abstractions.handler import HTTPHandlerProtocol
 from swagweb.abstractions.methods import HTTPMethod
 from swagweb.abstractions.route import BaseRoute
 from swagweb.http.request.request import HTTPRequest
@@ -18,11 +19,11 @@ class HTTPRoute(BaseRoute):
         self,
         method: HTTPMethod,
         route: str,
-        func: Callable[[HTTPRequest, Any], HTTPResponse],
+        func: HTTPHandlerProtocol,
     ):
         self.method = method
         self.route = route
-        self.func: Callable[[HTTPRequest, Any], HTTPResponse] = func
+        self.func: HTTPHandlerProtocol = func
         self.cached_path_queries: Union[Dict[int, Tuple[str, SupportedTypes]], None] = (
             None
         )

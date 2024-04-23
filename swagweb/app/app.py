@@ -18,7 +18,11 @@ class SwagApp:
         self.port = config.port
         self.config = config
         self.not_found = config.http_statuses_responses[404]
-        self.__route_factory = HTTPRouteFactory(self.config.http_statuses_responses)
+        self.__route_factory = HTTPRouteFactory(
+            self.config.http_statuses_responses,
+            self.config.booleans_true,
+            self.config.booleans_false,
+        )
 
     def route(self, method: HTTPMethod, path: str):
         def decorator(func):

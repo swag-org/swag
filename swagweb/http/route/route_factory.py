@@ -1,6 +1,7 @@
 from __future__ import annotations
 import re
 from typing import List, Callable, Union, Dict, Any, Optional
+from swagweb.abstractions.handler import HTTPHandlerProtocol
 from swagweb.abstractions.methods import HTTPMethod
 from swagweb.http.response.response import HTTPResponse
 from swagweb.http.request.request import HTTPRequest
@@ -18,7 +19,7 @@ class Node:
         self.childrens = childrens
 
     def __getitem__(self, item: str) -> Node:
-        patterns = [item, "{str}", "{int}", "{float}"]
+        patterns = [item, "{str}", "{int}", "{float}", "{bool}"]
 
         if self.childrens is None:
             raise NodeNotFoundException()
@@ -44,19 +45,26 @@ class Node:
 
 
 class HTTPRouteFactory(BaseRouteFactory):
-    routes: Dict[str, Node] = {
-        "GET": Node({"/": Node({})}),
-        "POST": Node({"/": Node({})}),
-        "PUT": Node({"/": Node({})}),
-        "DELETE": Node({"/": Node({})}),
-        "PATCH": Node({"/": Node({})}),
-        "OPTIONS": Node({"/": Node({})}),
-        "HEAD": Node({"/": Node({})}),
-    }
-
     parse_curly_brace_values = re.compile(r"\{([^{}]+)}")
 
-    def __init__(self, http_responses_statuses: Dict[int, HTTPResponse]):
+    def __init__(
+        self,
+        http_responses_statuses: Dict[int, HTTPResponse],
+        booleans_true: set[str],
+        booleans_false: set[str],
+    ):
+        self.routes: Dict[str, Node] = {
+            "GET": Node({"/": Node({})}),
+            "POST": Node({"/": Node({})}),
+            "PUT": Node({"/": Node({})}),
+            "DELETE": Node({"/": Node({})}),
+            "PATCH": Node({"/": Node({})}),
+            "OPTIONS": Node({"/": Node({})}),
+            "HEAD": Node({"/": Node({})}),
+        }
+        self.booleans_true = booleans_true
+        self.booleans_false = booleans_false
+
         self.http_responses_statuses = http_responses_statuses
 
     def prepare_route(self, route: str) -> str:
@@ -67,7 +75,7 @@ class HTTPRouteFactory(BaseRouteFactory):
         return route
 
     def __get_default_unprocessable_response(
-        self, _: HTTPRequest, __: Any
+        self, request: HTTPRequest, **kwargs: Any
     ) -> HTTPResponse:
         return self.http_responses_statuses[422]
 
@@ -75,7 +83,7 @@ class HTTPRouteFactory(BaseRouteFactory):
         self,
         method: HTTPMethod,
         route: str,
-        func: Callable[[HTTPRequest, Any], HTTPResponse],
+        func: HTTPHandlerProtocol,
     ) -> HTTPRoute:
         route = self.prepare_route(route)
         http_route = HTTPRoute(method, route, func)
@@ -105,8 +113,11 @@ class HTTPRouteFactory(BaseRouteFactory):
                         token = "{int}"
                     elif token_type == float:
                         token = "{float}"
+                    elif token_type == bool:
+                        token = "{bool}"
                     else:
                         token = "{str}"
+
             if actual_node.childrens is None:
                 raise RuntimeError("Idk handle in future")
 
@@ -151,15 +162,24 @@ class HTTPRouteFactory(BaseRouteFactory):
                     arg_type = actual_node.handler.cached_path_queries[index][1]
                     token: Any = None
 
-                    # TODO: add support for boolean
+                    # TODO: refactoring
                     try:
-                        if arg_type == "int":
+                        if arg_type == int:
                             token = int(raw_token)
-                        if arg_type == "float":
+                        elif arg_type == float:
                             token = float(raw_token)
+                        elif arg_type == bool:
+                            if raw_token in self.booleans_true:
+                                token = True
+                            elif raw_token in self.booleans_false:
+                                token = False
+                            else:
+                                raise ValueError(
+                                    f"Cant find the boolean value for {raw_token}"
+                                )
                         else:
                             token = raw_token
-                    except (TypeError, ValueError):
+                    except (TypeError, ValueError) as e:
                         return (
                             HTTPRoute(
                                 method,
@@ -167,7 +187,7 @@ class HTTPRouteFactory(BaseRouteFactory):
                                 self.__get_default_unprocessable_response,
                             ),
                             {},
-                        )  # create cached 422 response
+                        )  # return cached 422 response
 
                     kwargs[actual_node.handler.cached_path_queries[index][0]] = token
 

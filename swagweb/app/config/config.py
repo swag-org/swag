@@ -38,3 +38,5 @@ class SwagAppConfig:
             ),
         }
     )
+    booleans_false = {"no", "off", "false", "0"}
+    booleans_true = {"yes", "on", "true", "1"}
